@@ -1,126 +1,99 @@
 
-# 4-to-1 Multiplexer in Verilog
+# 4-bit Binary Comparator in Verilog
 
 ### Digital Logic Design | Verilog HDL
 
-A digital logic project that implements a **4-to-1 Multiplexer (MUX)** using Verilog HDL.
+A digital logic circuit that compares two 4-bit binary numbers using Verilog HDL.
 
-The circuit selects one of four binary data inputs using a 2-bit selection signal and forwards the selected value to a single output.
+The comparator determines whether the first number is **greater than**, **equal to**, or **less than** the second number.
 
-**64 Passed Checks | 0 Failed | Icarus Verilog**
+**256 Passed Checks | 0 Failed | Icarus Verilog**
 
 ---
 
 ## Project Overview
 
-A Multiplexer is a digital circuit that selects one input from several available inputs.
+A binary comparator is a combinational logic circuit used to compare binary values.
 
-This project demonstrates how a 4-to-1 MUX operates through combinational logic, Verilog implementation, and simulation-based verification.
+This project implements a 4-bit comparator, demonstrates its operation, and verifies every possible pair of 4-bit input values.
 
 ## How It Works
 
-The circuit has:
+The circuit receives two unsigned 4-bit inputs:
 
-- **4 data inputs:** `d0`, `d1`, `d2`, `d3`
-- **2 selection inputs:** `s1`, `s0`
-- **1 output:** `y`
+- `a` — First binary number (0–15)
+- `b` — Second binary number (0–15)
 
-The selection inputs determine which data input appears at the output.
+It produces three outputs:
+
+- `greater` — High when A > B
+- `equal` — High when A = B
+- `less` — High when A < B
+
+Exactly one output is high for every valid pair of binary inputs.
 
 ## Logic Diagram
 
-The following diagram illustrates the input selection process.
-
 ~~~mermaid
 flowchart LR
-    D0["Data Input d0"] --> MUX
-    D1["Data Input d1"] --> MUX
-    D2["Data Input d2"] --> MUX
-    D3["Data Input d3"] --> MUX
+    A["Input A (4 bits)"] --> COMP["4-bit Binary Comparator"]
+    B["Input B (4 bits)"] --> COMP
 
-    S1["Select s1"] -.-> MUX
-    S0["Select s0"] -.-> MUX
-
-    MUX["4-to-1 Multiplexer"]
-    MUX --> Y["Output y"]
+    COMP --> GT["greater: A > B"]
+    COMP --> EQ["equal: A = B"]
+    COMP --> LT["less: A < B"]
 ~~~
 
-## Selection Table
+## Comparison Examples
 
-| s1 | s0 | Selected Input | Output |
-|---|---|---|---|
-| 0 | 0 | d0 | y = d0 |
-| 0 | 1 | d1 | y = d1 |
-| 1 | 0 | d2 | y = d2 |
-| 1 | 1 | d3 | y = d3 |
-
-## Boolean Expression
-
-The output can be expressed as:
-
-`y = (~s1 & ~s0 & d0) | (~s1 & s0 & d1) | (s1 & ~s0 & d2) | (s1 & s0 & d3)`
-
-This expression represents the four possible input-selection conditions.
-
----
+| A | B | Greater | Equal | Less |
+|---|---|---|---|---|
+| 0000 | 0000 | 0 | 1 | 0 |
+| 0011 | 0101 | 0 | 0 | 1 |
+| 1001 | 0110 | 1 | 0 | 0 |
+| 1111 | 1111 | 0 | 1 | 0 |
+| 1111 | 0000 | 1 | 0 | 0 |
 
 ## Project Files
 
 | File | Description |
 |---|---|
-| `mux4.v` | 4-to-1 Multiplexer Verilog design |
-| `mux4_tb.v` | Self-checking testbench for all binary-input combinations |
+| `comparator4.v` | 4-bit Comparator Verilog design |
+| `comparator4_tb.v` | Testbench covering all 256 input combinations |
 | `README.md` | Project overview and documentation |
-
----
 
 ## Simulation and Verification
 
-The Multiplexer was tested using **Icarus Verilog** on EDA Playground.
+The comparator was simulated using **Icarus Verilog** on EDA Playground.
 
 The testbench verifies:
 
-- All 16 combinations of the four data inputs.
-- All 4 combinations of the selection inputs.
-- Correct output selection for every combination.
-- A total of 64 directed verification checks.
+- All 16 values of input A
+- All 16 values of input B
+- All 256 possible input pairs
+- Greater-than, equal-to, and less-than outputs
+- Exactly one active comparison output per test case
 
 ### Test Results
 
 ~~~text
-Passed: 64
+Passed: 256
 Failed: 0
-ALL 64 MUX CHECKS PASSED
+ALL 256 COMPARATOR CHECKS PASSED
 ~~~
 
 ### Live Simulation
 
-[View and Run the Simulation on EDA Playground](https://www.edaplayground.com/x/iepZ)
-
----
+[View and Run the Simulation on EDA Playground](https://www.edaplayground.com/x/NTVx)
 
 ## Run Locally
 
-### Requirements
-
-Install Icarus Verilog and ensure `iverilog` and `vvp` are available in your system PATH.
-
-### Compile and Run
+Install Icarus Verilog and run:
 
 ~~~bash
-iverilog -g2012 -s mux4_tb -o mux4_test.vvp mux4.v mux4_tb.v
-vvp mux4_test.vvp
+iverilog -g2012 -s comparator4_tb -o comparator4_test.vvp comparator4.v comparator4_tb.v
+vvp comparator4_test.vvp
 ~~~
-
-Expected result:
-
-~~~text
-Passed: 64
-Failed: 0
-ALL 64 MUX CHECKS PASSED
-~~~
-
----
 
 ## Technologies
 
@@ -129,8 +102,6 @@ ALL 64 MUX CHECKS PASSED
 - Icarus Verilog
 - EDA Playground
 - GitHub
-
----
 
 ## Author
 
