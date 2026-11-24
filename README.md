@@ -1,101 +1,78 @@
 
-# 4-bit Binary Comparator in Verilog
+# 4-to-1 Multiplexer in Verilog
 
 ### Digital Logic Design | Verilog HDL
 
-A digital logic circuit that compares two 4-bit binary numbers using Verilog HDL.
+A combinational logic circuit that selects one of four binary inputs using two selection bits.
 
-The comparator determines whether the first number is **greater than**, **equal to**, or **less than** the second number.
-
-**256 Passed Checks | 0 Failed | Icarus Verilog**
+**64 Passed Checks | 0 Failed | Icarus Verilog**
 
 ---
 
-## Project Overview
-
-A binary comparator is a combinational logic circuit used to compare binary values.
-
-This project implements a 4-bit comparator, demonstrates its operation, and verifies every possible pair of 4-bit input values.
-
 ## How It Works
 
-The circuit receives two unsigned 4-bit inputs:
+The Multiplexer has four data inputs (`d0`, `d1`, `d2`, `d3`), two selection inputs (`s1`, `s0`), and one output (`y`).
 
-- `a` — First binary number (0–15)
-- `b` — Second binary number (0–15)
-
-It produces three outputs:
-
-- `greater` — High when A > B
-- `equal` — High when A = B
-- `less` — High when A < B
-
-Exactly one output is high for every valid pair of binary inputs.
+The selection bits determine which input is forwarded to the output.
 
 ## Logic Diagram
 
-~~~mermaid
+```mermaid
 flowchart LR
-    A["Input A (4 bits)"] --> COMP["4-bit Binary Comparator"]
-    B["Input B (4 bits)"] --> COMP
+    D0["Input d0"] --> MUX["4-to-1 Multiplexer"]
+    D1["Input d1"] --> MUX
+    D2["Input d2"] --> MUX
+    D3["Input d3"] --> MUX
 
-    COMP --> GT["greater: A > B"]
-    COMP --> EQ["equal: A = B"]
-    COMP --> LT["less: A < B"]
-~~~
+    S1["Select s1"] -.-> MUX
+    S0["Select s0"] -.-> MUX
 
-## Comparison Examples
+    MUX --> Y["Output y"]
+```
 
-| A | B | Greater | Equal | Less |
-|---|---|---|---|---|
-| 0000 | 0000 | 0 | 1 | 0 |
-| 0011 | 0101 | 0 | 0 | 1 |
-| 1001 | 0110 | 1 | 0 | 0 |
-| 1111 | 1111 | 0 | 1 | 0 |
-| 1111 | 0000 | 1 | 0 | 0 |
+## Selection Table
+
+| s1 | s0 | Output |
+|---|---|---|
+| 0 | 0 | d0 |
+| 0 | 1 | d1 |
+| 1 | 0 | d2 |
+| 1 | 1 | d3 |
 
 ## Project Files
 
 | File | Description |
 |---|---|
-| `comparator4.v` | 4-bit Comparator Verilog design |
-| `comparator4_tb.v` | Testbench covering all 256 input combinations |
-| `README.md` | Project overview and documentation |
+| `mux4.v` | Multiplexer Verilog design |
+| `mux4_tb.v` | Self-checking testbench |
+| `README.md` | Project documentation |
 
 ## Simulation and Verification
 
-The comparator was simulated using **Icarus Verilog** on EDA Playground.
+The circuit was tested using Icarus Verilog on EDA Playground.
 
-The testbench verifies:
+The testbench checks all 16 data-input combinations against all four selection combinations.
 
-- All 16 values of input A
-- All 16 values of input B
-- All 256 possible input pairs
-- Greater-than, equal-to, and less-than outputs
-- Exactly one active comparison output per test case
+**Verification Results:**
 
-### Test Results
-
-~~~text
-Passed: 256
+```text
+Passed: 64
 Failed: 0
-ALL 256 COMPARATOR CHECKS PASSED
-~~~
+ALL 64 MUX CHECKS PASSED
+```
 
 ### Live Simulation
 
-[View and Run the Simulation on EDA Playground](https://www.edaplayground.com/x/NTVx)
-
+[View Simulation on EDA Playground](https://www.edaplayground.com/x/iepZ)
 
 ## Run Locally
 
 Install Icarus Verilog and run:
 
 ```bash
-iverilog -g2012 -s comparator4_tb -o comparator4_test.vvp comparator4.v comparator4_tb.v
-vvp comparator4_test.vvp
+iverilog -g2012 -s mux4_tb -o mux4_test.vvp mux4.v mux4_tb.v
+vvp mux4_test.vvp
 ```
-
 
 ## Technologies
 
@@ -103,7 +80,6 @@ vvp comparator4_test.vvp
 - Digital Logic Design
 - Icarus Verilog
 - EDA Playground
-- GitHub
 
 ## Author
 
