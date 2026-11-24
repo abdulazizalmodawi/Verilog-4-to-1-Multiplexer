@@ -86,14 +86,16 @@ ALL 256 COMPARATOR CHECKS PASSED
 
 [View and Run the Simulation on EDA Playground](https://www.edaplayground.com/x/NTVx)
 
+
 ## Run Locally
 
 Install Icarus Verilog and run:
 
-~~~bash
+```bash
 iverilog -g2012 -s comparator4_tb -o comparator4_test.vvp comparator4.v comparator4_tb.v
 vvp comparator4_test.vvp
-~~~
+```
+
 
 ## Technologies
 
